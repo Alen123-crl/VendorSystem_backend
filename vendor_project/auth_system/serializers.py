@@ -81,22 +81,6 @@ class LoginSerializer(serializers.Serializer):
         return {
             "user_id": user.id,
             "username": user.username,
-            "access": str(refresh.access_token),
-            "refresh": str(refresh)
+            "access_token": str(refresh.access_token),
+            "refresh_token": str(refresh)
         }
-
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
-
-    def validate(self, data):
-
-        user = authenticate(
-            username=data["username"],
-            password=data["password"]
-        )
-
-        if not user:
-            raise serializers.ValidationError("Invalid credentials")
-
-        data["user"] = user
-        return data
